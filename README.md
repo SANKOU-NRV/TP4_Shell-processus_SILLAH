@@ -300,7 +300,7 @@ systemd─┬─ModemManager───2*[{ModemManager}]
                          └─2*[{xfce4-terminal}]
 ```
 
-Explication
+**Explication**
 pstree affiche les processus sous forme d’arbre : qui lance qui (relation parent → enfants). On voit la hiérarchie des processus, ce qui est plus lisible que la liste brute de ps.
 
 
@@ -452,16 +452,7 @@ recent
 
 
 
-
-
-
-
-
-
-
-
-
-Commandes + résultat :
+***Commandes + résultat*** :
 
 ```code
 sankou@p20220:~$ /etc/init.d/test-reseau start
@@ -475,7 +466,7 @@ Service test-reseau arrete.
 ```
 
 
-Explication : 
+**Explication** : 
 
 Le script utilise une structure case pour gérer les trois actions start stop et status
 Lorsque l’on lance start le script test-reseau.sh est exécuté en arrière-plan grâce au symbole &
@@ -505,4 +496,62 @@ Configurer le service test-reseau pour qu’il démarre automatiquement au déma
 sankou@p20220:~$ sudo ln -s /etc/init.d/test-reseau /etc/rc2.d/S99test-reseau
 [sudo] Mot de passe de sankou : 
 ```
+ici Le S signifie start et Le nombre 99 indique l’ordre de lancement plus le nombre est élevé plus le service démarre tard
 
+```code
+sankou@p20220:~$ sudo less /var/log/boot.log
+[sudo] Mot de passe de sankou : 
+"/var/log/boot.log" may be a binary file.  See it anyway? 
+```
+Cela permet de voir si le service a été lancé pendant la séquence de démarrage
+
+```code
+sankou@p20220:~$ sudo less /var/log/test-reseau.log
+mercredi 18 févr. 2026, 10:59:39 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:00:48 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:01:54 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:02:55 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:03:56 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:04:57 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:05:58 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:06:59 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:08:00 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:09:01 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:10:02 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:11:03 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:12:04 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:13:06 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:14:07 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:15:08 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:15:40 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:16:05 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:16:09 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:16:34 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:16:41 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:17:06 (CET+0100): test ok (2/2)
+mercredi 18 févr. 2026, 11:17:10 (CET+0100): test ok (2/2)
+```
+de nouvelles lignes avec l’heure correspondant au redémarrage apparaissent
+
+```code
+sankou@p20220:~$ sudo /etc/init.d/test-reseau status
+Le service test-reseau est demarre (pid = 898).
+```
+permet de verifié que le processus tourne bien. 
+
+***Explication***
+Avec la commande ln on crée un lien symbolique dans le niveau de démarrage du système
+Au boot Debian exécute automatiquement tous les scripts commençant par S dans le répertoire rc correspondant
+Cela permet de lancer le service sans intervention manuelle
+La vérification se fait soit par les fichiers de log soit en contrôlant la présence du processus avec ps
+Le service est maintenant configuré pour démarrer automatiquement au lancement du système
+
+
+**Conclusion**
+Ce TP m’a permis de comprendre concrètement le fonctionnement des processus sous Linux et la manière dont le système gère leur exécution
+J’ai appris à utiliser des outils essentiels comme ps top et pstree pour observer les processus en cours et analyser l’utilisation des ressources
+J’ai compris l’importance du code de retour d’une commande et comment l’exploiter dans un script pour savoir si une action a réussi ou échoué
+La création du script test-reseau m’a permis de mettre en pratique les boucles les conditions la redirection vers un fichier log et la gestion des permissions système
+La mise en place d’un service avec start stop status et la gestion du PID m’a permis de comprendre le fonctionnement d’un service système sous SysVinit
+Enfin la configuration du démarrage automatique au boot m’a montré comment le système lance les services au démarrage et comment vérifier leur bon fonctionnement
+Ce TP renforce les bases indispensables en administration système et montre comment automatiser et superviser proprement des tâches sous Linux
