@@ -1,15 +1,17 @@
-                    ## Automatisation des taches d’administration
-                                 SILLAH Sankou 
-                                  18/02/2026
-                          ## TP No 4 - Shell et processus
+ # Automatisation des taches d’administration  
 
+**SILLAH Sankou**  
+**18/02/2026**  
 
+# TP No 4 - Shell et processus  
 
+---
 
-________________________________________________________________________________
-Objectif
+## Objectif
+
 L’objectif de ce TP est de comprendre le fonctionnement des processus sous Linux et d’apprendre à les observer, les analyser et les gérer à l’aide des outils du shell.
-________________________________________________________________________________
+
+---
 
 ***EXERCICE 1 - Processus***
 
