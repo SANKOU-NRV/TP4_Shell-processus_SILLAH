@@ -500,4 +500,9 @@ Ici on veut Configurer le service test-reseau pour qu’il démarre automatiquem
 
 ***objectif***
 Configurer le service test-reseau pour qu’il démarre automatiquement au démarrage du système en utilisant le mécanisme SysVinit puis vérifier qu’il se lance correctement après redémarrage
+**commande + résultat**
+```code
+sankou@p20220:~$ sudo ln -s /etc/init.d/test-reseau /etc/rc2.d/S99test-reseau
+[sudo] Mot de passe de sankou : 
+```
 
